@@ -1,5 +1,6 @@
 const callbackService = require("../services/callbackService");
 const flowService = require("../services/flowService");
+const promiseService = require("../services/promiseService");
 
 exports.handleGetTitle = (req, res, implementation) => {
   // To be implemented based on the control flow method
@@ -35,7 +36,22 @@ exports.handleGetTitle = (req, res, implementation) => {
       });
       break;
     case "promises":
-      // Call promiseService.getTitles with appropriate handler
+      promiseService
+        .getTitles(req.query.address)
+        .then((titles) => {
+          res.send(`
+                        <html>
+                        <head></head>
+                        <body>
+                        <h1>Following are the titles of given websites:</h1>
+                        <ul>${titles}</ul>
+                        </body>
+                        </html>
+                    `);
+        })
+        .catch((err) => {
+          res.status(500).send("<h1>Server Error</h1>");
+        });
       break;
     case "streams":
       // Call streamService.getTitles with appropriate handler
