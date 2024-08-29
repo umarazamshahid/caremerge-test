@@ -13,7 +13,7 @@ const getTitles = (addresses, callback) => {
     (address, cb) => {
       const url = addProtocol(address);
       axios
-        .get(url)
+        .get(url, { timeout: 5000 })
         .then((response) => {
           const root = parse(response.data);
           const title = root.querySelector("title").innerText || "NO RESPONSE";

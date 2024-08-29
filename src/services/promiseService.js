@@ -10,7 +10,7 @@ const getTitles = (addresses) => {
   const promises = addresses.map((address) => {
     const url = addProtocol(address);
     return axios
-      .get(url)
+      .get(url, { timeout: 5000 })
       .then((response) => {
         const root = parse(response.data);
         const title = root.querySelector("title").innerText || "NO RESPONSE";
