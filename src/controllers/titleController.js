@@ -1,4 +1,5 @@
 const callbackService = require("../services/callbackService");
+const flowService = require("../services/flowService");
 
 exports.handleGetTitle = (req, res, implementation) => {
   // To be implemented based on the control flow method
@@ -17,10 +18,30 @@ exports.handleGetTitle = (req, res, implementation) => {
         }
       });
       break;
-
+    case "flow":
+      flowService.getTitles(req.query.address, (err, titles) => {
+        if (err) {
+          return res.status(500).send("<h1>Server Error</h1>");
+        }
+        res.send(`
+                <html>
+                <head></head>
+                <body>
+                <h1>Following are the titles of given websites:</h1>
+                <ul>${titles}</ul>
+                </body>
+                </html>
+            `);
+      });
+      break;
+    case "promises":
+      // Call promiseService.getTitles with appropriate handler
+      break;
+    case "streams":
+      // Call streamService.getTitles with appropriate handler
+      break;
     default:
-    // res.sendStatus(400).send("<h1>Bad Request</h1>");
-
-    // ... other cases for different implementations
+      res.status(400).send("Invalid implementation flag");
+      break;
   }
 };

@@ -1,14 +1,8 @@
 const http = require("http");
 const https = require("https");
 const { parse } = require("node-html-parser");
+const { addProtocol } = require("../utils/helpers");
 
-function addProtocol(url) {
-  // Add 'http://' if the URL does not start with 'http://' or 'https://'
-  if (!/^https?:\/\//i.test(url)) {
-    return `http://${url}`;
-  }
-  return url;
-}
 function fetchTitle(address, callback) {
   const url = addProtocol(address);
   const protocol = address.startsWith("https") ? https : http;
